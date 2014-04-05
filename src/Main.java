@@ -4,8 +4,9 @@
  * @author Ivan
  */
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
 public class Main
 {
@@ -13,6 +14,13 @@ public class Main
     public static final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
     public static final double CHECK_FEE = .15;
     public static final double DEPOSIT_FEE = .10;
+    
+    //Transactions
+      private static ArrayList<Transaction> transList;
+      private static int transCount;
+
+    //GUI
+    public static JFrame frame;
     
     //Checking account
     public static CheckingAccount userAccount;
@@ -32,26 +40,36 @@ public class Main
        userInitialBalance= Double.parseDouble(userInitialBalanceStr);
        userAccount = new CheckingAccount(userInitialBalance);
        
+       //GUI
+       frame = new JFrame("Checking Account Actions");
+       frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+       
+       CAActionPanel panel = new CAActionPanel();
+       frame.getContentPane().add(panel);
+       
+       frame.pack();
+       frame.setVisible(true);
+       
        //Get the first transaction code for the first time, then it will enter the loop
-       userTransCode = getTransCode();
-       
-       //Loop that allows multiple transactions until user intputs 0.
-       do {
-
-           userTransAmt = getTransAmt();
-           userAccount.setBalance(userTransAmt, userTransCode);
-           
-           displayBalanceMessage(userTransAmt, userTransCode, userAccount.willBeChargedForLowBalance(),
-                   userAccount.NotifyAboutUltraLowBalance(), userAccount.willBeChargedForNegativeBalance());
-           
-           userTransCode = getTransCode();
-           
-       } while (userTransCode != 0);
-       
-
-       displayFinalMessage();
    }
+    public static void addTrans( Transaction newTrans)
+    {
+        transList.add(newTrans);
+        transCount =+ 1;
+    }
+        
+    public static int getTransCount()
+    {
+        return transCount;
+    }
+    
+    public Transaction getTrans(int i)
+    {
+        return transList.get(i);
+    }
   
+    
+    
    public static int getTransCode()
    {
        String userTransCodeStr;
@@ -85,7 +103,7 @@ public class Main
 
    }
  
-   public static void displayBalanceMessage(double transAmt, int transCode, Boolean lowBalanceFee,
+   public static void displayBalanceMessage(Transaction trans, Boolean lowBalanceFee,
            Boolean ultraLowBalance, Boolean negativeBalanceFee)
    {
        String transType, balanceMessage, transactionString, currentBalanceString, 
@@ -94,7 +112,7 @@ public class Main
 
        double serviceCharge;
 
-       if(transCode == 1){
+       if(trans.getTransId() == 1){
            transType = "Check";
            serviceCharge = CHECK_FEE;
        }
@@ -102,6 +120,8 @@ public class Main
            transType = "Deposit";
            serviceCharge = DEPOSIT_FEE;
        }
+       
+       double transAmt = trans.getTransAmount();
        
        transactionString = ("Transaction: " + transType + " in the amount of " + 
                currencyFormatter.format(transAmt)  + "\n");
@@ -143,6 +163,7 @@ public class Main
        
        
    }
+
    public static void displayFinalMessage()
    {
        String finalMessage; 
