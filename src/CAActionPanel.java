@@ -99,8 +99,8 @@ public class CAActionPanel extends JPanel
             }
                 
             else if (source == one){
-                String message = "Transaction List for\nName: " + Main.userAccount.name 
-                        +": \n\n" + "ID     Type              Amount\n";
+                String message = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nTransaction List for\nName: " + Main.userAccount.name 
+                        +"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n" + "ID     Type              Amount\n";
                 
                 int transCount = Main.userAccount.getTransCount();
                 for (int i = 0; i < transCount; i++) {
@@ -113,9 +113,9 @@ public class CAActionPanel extends JPanel
             }
                 
             else if (source == two){
-                String message = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nListing all Checks for " 
+                String message = "Listing all Checks for " 
                         + Main.userAccount.name 
-                        + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n" + 
+                        + "\n\n" + 
                         "ID     Chk#              Amount\n"
                         + "-------------------------------\n";
                 
@@ -134,7 +134,7 @@ public class CAActionPanel extends JPanel
             else if (source == three){
                 String message = "Listing all Deposits for " + Main.userAccount.name
                         +  "\n\n" + "ID     Type              Amount\n"
-                        + "-------------------------------";
+                        + "-------------------------------\n";
                 
                 int transCount = Main.userAccount.getTransCount();                
                 for (int i = 0; i < transCount; i++) {

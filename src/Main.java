@@ -131,9 +131,17 @@ public class Main
        
        double transAmt = trans.getTransAmount();
        
+       if (transType.equals("Check")) {
+       Check check = (Check)trans;
        transactionString = (userAccount.name + "'s Account\n" + "Transaction: "
-               + transType + "#" + (Check)trans.getCheckNumber() + " in the amount of " + 
+               + transType + " # " + check.getCheckNumber() + " in the amount of " + 
+               currencyFormatter.format(transAmt)  + "\n");           
+       }
+       else {
+       transactionString = (userAccount.name + "'s Account\n" + "Transaction: "
+               + transType + " in the amount of " + 
                currencyFormatter.format(transAmt)  + "\n");
+       }
        currentBalanceString = ("Current Balance: " + 
                currencyFormatter.format(userAccount.getBalance()) + "\n");
        serviceChargeString = ("Service Charge: " + transType + " --- charge " +
