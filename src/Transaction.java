@@ -58,7 +58,7 @@ public class Transaction
     {
         
         String transAmtString = Main.currencyFormatter.format(transAmt);
-        String formatString =  String.format("%-14d%-10s%15s" + "\n"  , transNumber, 
+        String formatString =  String.format("%-9d%-10s%14s" + "\n"  , transNumber, 
                 transNumberToString(transId), 
                 transAmtString);
                 
@@ -67,8 +67,8 @@ public class Transaction
     
     public String toShortString()
     {
-        String formatString = transNumber + "           " +
-                Main.currencyFormatter.format(transAmt) + "\n";
+        String formatString = String.format("%-6d%14s", transNumber,
+                Main.currencyFormatter.format(transAmt) + "\n");
         
         return formatString;
     }

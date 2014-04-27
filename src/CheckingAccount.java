@@ -1,3 +1,6 @@
+
+import java.util.ArrayList;
+
 /*
  *
  *
@@ -16,6 +19,12 @@ public class CheckingAccount
       private double totalServiceCharge;
       private static Boolean hasBeenUnder500ThisMonth = false;
       private static Boolean hasBeenUnder50ThisMonth = false;
+      
+      //Transactions
+      private ArrayList<Transaction> transList = new ArrayList<>();
+      private int transCount;
+      
+      
  
       public CheckingAccount(double initialBalance)
       {
@@ -56,16 +65,14 @@ public class CheckingAccount
         public Boolean willBeChargedForLowBalance()
         {
             if (hasBeenUnder500ThisMonth) {
-                                System.out.println("if called");
                 return false;
             }
             else{
                 if (balance < 500) {
-                    System.out.println("else called");
                     setServiceCharge(LOW_BALANCE_FEE);
-                    Transaction lowBalanaceTransaction = new Transaction(Main.getTransCount(),
+                    Transaction lowBalanaceTransaction = new Transaction(getTransCount(),
                             3, 5.00);
-                    Main.userAccount.addTrans(lowBalanaceTransaction);
+                    addTrans(lowBalanaceTransaction);
                     hasBeenUnder500ThisMonth = true;
                     return true;
                 }
@@ -84,9 +91,9 @@ public class CheckingAccount
             else{
                 if (balance < 50) {
                     hasBeenUnder50ThisMonth = true;
-                    Transaction negBalanaceTransaction = new Transaction(Main.getTransCount(),
+                    Transaction negBalanaceTransaction = new Transaction(getTransCount(),
                             3, 10.00);
-                    Main.userAccount.addTrans(negBalanaceTransaction);
+                    addTrans(negBalanaceTransaction);
                     return true;
                 }
             }
@@ -103,14 +110,28 @@ public class CheckingAccount
                 return false;    
         }
         
-        public void addTrans(Transaction transToAdd)
+        public void addTrans( Transaction newTrans)
         {
-            double transAmt = transToAdd.getTransAmount();
-            int transType = transToAdd.getTransId();
+            double transAmt = newTrans.getTransAmount();
+            int transCode = newTrans.getTransId();
+            transList.add(newTrans);
+            transCount += 1;
             
-            setBalance(transAmt, transType);
-            Main.addTrans(transToAdd);
+            setBalance(transAmt, transCode);
             
         }
+        
+        public int getTransCount()
+        {
+            return transCount;
+        }
+        
+        public Transaction getTrans(int i)
+        {
+            return transList.get(i);
+        }
+  
+    
+    
             
 }

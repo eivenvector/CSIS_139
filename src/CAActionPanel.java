@@ -66,11 +66,12 @@ public class CAActionPanel extends JPanel
         @Override
         public void actionPerformed (ActionEvent event)
         {
+            JTextArea textArea;
             Object source = event.getSource();
             
             Main.frame.setVisible(false);
             if (source == zero){
-                Transaction newTrans = new Transaction(Main.getTransCount(),
+                Transaction newTrans = new Transaction(Main.userAccount.getTransCount(),
                         Main.getTransCode(), Main.getTransAmt());
                 Main.userAccount.addTrans(newTrans);
                 Main.displayBalanceMessage(newTrans, 
@@ -78,12 +79,12 @@ public class CAActionPanel extends JPanel
                         Main.userAccount.NotifyAboutUltraLowBalance(), 
                         Main.userAccount.willBeChargedForNegativeBalance());
                 if (newTrans.getTransId() == 1) {
-                    Transaction serviceTrans = new Transaction(Main.getTransCount(),
+                    Transaction serviceTrans = new Transaction(Main.userAccount.getTransCount(),
                             3, 0.15);
                     Main.userAccount.addTrans(serviceTrans);
                 }
                 else if (newTrans.getTransId() == 2) {
-                    Transaction serviceTrans = new Transaction(Main.getTransCount(),
+                    Transaction serviceTrans = new Transaction(Main.userAccount.getTransCount(),
                             3, 0.10);
                     Main.userAccount.addTrans(serviceTrans);
                 }
@@ -91,43 +92,48 @@ public class CAActionPanel extends JPanel
                 
             else if (source == one){
                 String message = "List All Transactions: \n\n"
-                        + "ID           Type              Amount\n";
+                        + "ID       Type              Amount\n";
                 
-                int transCount = Main.getTransCount();
+                int transCount = Main.userAccount.getTransCount();
                 for (int i = 0; i < transCount; i++) {
-                    Transaction trans = Main.getTrans(i);
+                    Transaction trans = Main.userAccount.getTrans(i);
                     message += trans.toString();
                 }
-                
-                JOptionPane.showMessageDialog(null, message);
+                textArea = new JTextArea(message);
+                textArea.setFont(new Font("Monospaced",Font.PLAIN,15));
+                JOptionPane.showMessageDialog(null, textArea);
             }
                 
             else if (source == two){
                 String message = "Checks Cashed: \n\n"
                         + "ID           Amount\n";
                 
-                int transCount = Main.getTransCount();                
+                int transCount = Main.userAccount.getTransCount();                
                 for (int i = 0; i < transCount; i++) {
-                    Transaction trans = Main.getTrans(i);
+                    Transaction trans = Main.userAccount.getTrans(i);
                     if  (trans.getTransId() == 1) {
                     message += trans.toShortString();
                     }
                 }
-                JOptionPane.showMessageDialog(null, message);
+                textArea = new JTextArea(message);
+                textArea.setFont(new Font("Monospaced",Font.PLAIN,15));
+                JOptionPane.showMessageDialog(null, textArea);
             }
                 
             else if (source == three){
                 String message = "Deposits Made: \n\n"
                         + "ID           Amount\n";
                 
-                int transCount = Main.getTransCount();                
+                int transCount = Main.userAccount.getTransCount();                
                 for (int i = 0; i < transCount; i++) {
-                    Transaction trans = Main.getTrans(i);
+                    Transaction trans = Main.userAccount.getTrans(i);
                     if  (trans.getTransId() == 2) {
                     message += trans.toShortString();
                     }
                 }
-                JOptionPane.showMessageDialog(null, message);
+                textArea = new JTextArea(message);
+                textArea.setFont(new Font("Monospaced",Font.PLAIN,15));
+                JOptionPane.showMessageDialog(null, textArea);
                 
             }
             

@@ -7,6 +7,7 @@
 import javax.swing.*;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class Main
 {
@@ -29,6 +30,7 @@ public class Main
 
     public static void main (String[] args)
    {
+       transList = new ArrayList<>();
        //Method Variables
        String userInitialBalanceStr;
        double userInitialBalance, userTransAmt;
@@ -44,10 +46,12 @@ public class Main
        frame = new JFrame("Checking Account Actions");
        frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
        
+       
        CAActionPanel panel = new CAActionPanel();
        frame.getContentPane().add(panel);
        
        frame.pack();
+
        frame.setVisible(true);
        
        //Get the first transaction code for the first time, then it will enter the loop
@@ -55,7 +59,7 @@ public class Main
     public static void addTrans( Transaction newTrans)
     {
         transList.add(newTrans);
-        transCount =+ 1;
+        transCount += 1;
     }
         
     public static int getTransCount()
@@ -63,7 +67,7 @@ public class Main
         return transCount;
     }
     
-    public Transaction getTrans(int i)
+    public static Transaction getTrans(int i)
     {
         return transList.get(i);
     }
@@ -136,28 +140,18 @@ public class Main
                currencyFormatter.format(userAccount.getServiceCharge()) + "\n");
        
        //Chooses what warnings and fees will be displayed. 
-       if(!lowBalanceFee && !ultraLowBalance && !negativeBalanceFee){
-           balanceMessage = (transactionString + currentBalanceString + 
-               serviceChargeString + totalServiceChargeString);
+       balanceMessage = transactionString + currentBalanceString +
+               serviceChargeString;
+       if (lowBalanceFee) {
+           balanceMessage += lowServiceChargeString;
        }
-       else if(!ultraLowBalance && !negativeBalanceFee){
-           balanceMessage = (transactionString + currentBalanceString + 
-               serviceChargeString + lowServiceChargeString  + totalServiceChargeString);
+       if (ultraLowBalance) {
+           balanceMessage += ultraServiceChargeString;
        }
-       else if(ultraLowBalance && !negativeBalanceFee){
-           balanceMessage = (transactionString + currentBalanceString + 
-               serviceChargeString + lowBalanceString + totalServiceChargeString);
+       if (negativeBalanceFee) {
+           balanceMessage += lowBalanceString;
        }
-       else if(ultraLowBalance && negativeBalanceFee){
-           balanceMessage = (transactionString + currentBalanceString + 
-               serviceChargeString + lowBalanceString + ultraServiceChargeString
-                   + totalServiceChargeString);
-       }
-       else{
-    	   balanceMessage = (transactionString + currentBalanceString + 
-                   serviceChargeString  + ultraServiceChargeString
-                       + totalServiceChargeString);
-       }
+       balanceMessage += totalServiceChargeString;
 
        JOptionPane.showMessageDialog(null, balanceMessage);
        
