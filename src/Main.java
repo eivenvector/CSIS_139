@@ -7,7 +7,6 @@
 import javax.swing.*;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Set;
 
 public class Main
 {
@@ -32,15 +31,15 @@ public class Main
    {
        transList = new ArrayList<>();
        //Method Variables
-       String userInitialBalanceStr;
-       double userInitialBalance, userTransAmt;
-       int userTransCode;
+       String userInitialBalanceStr, name;
+       double userInitialBalance;
 
        //Initial Balance setting - This only happens once; at the beginnning of 
        //the program
+       name = JOptionPane.showInputDialog ("Enter the Account Name: ");
        userInitialBalanceStr = JOptionPane.showInputDialog ("Enter your Initial Balance: ");
        userInitialBalance= Double.parseDouble(userInitialBalanceStr);
-       userAccount = new CheckingAccount(userInitialBalance);
+       userAccount = new CheckingAccount(userInitialBalance, name);
        
        //GUI
        frame = new JFrame("Checking Account Actions");
@@ -107,6 +106,11 @@ public class Main
 
    }
  
+   public static String getCheckNum()
+   {
+       return JOptionPane.showInputDialog("Enter the check number");
+   }
+   
    public static void displayBalanceMessage(Transaction trans, Boolean lowBalanceFee,
            Boolean ultraLowBalance, Boolean negativeBalanceFee)
    {
@@ -127,7 +131,8 @@ public class Main
        
        double transAmt = trans.getTransAmount();
        
-       transactionString = ("Transaction: " + transType + " in the amount of " + 
+       transactionString = (userAccount.name + "'s Account\n" + "Transaction: "
+               + transType + "#" + (Check)trans.getCheckNumber() + " in the amount of " + 
                currencyFormatter.format(transAmt)  + "\n");
        currentBalanceString = ("Current Balance: " + 
                currencyFormatter.format(userAccount.getBalance()) + "\n");

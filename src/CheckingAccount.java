@@ -8,14 +8,13 @@ a * @author Ivan
  */
 
 
-public class CheckingAccount
+public class CheckingAccount extends Account
 {
       public static final double LOW_BALANCE_FEE = 5.0;
       public static final double NEGATIVE_BALANCE_FEE = 10.0;
       public static final double CHECK_FEE = .15;
       public static final double DEPOSIT_FEE = .10;
 
-      private double balance;
       private double totalServiceCharge;
       private static Boolean hasBeenUnder500ThisMonth = false;
       private static Boolean hasBeenUnder50ThisMonth = false;
@@ -26,17 +25,13 @@ public class CheckingAccount
       
       
  
-      public CheckingAccount(double initialBalance)
+      public CheckingAccount(double initialBalance, String initName)
       {
             balance = initialBalance;
+            name = initName;
             totalServiceCharge = 0.0;
       }
- 
-      public double getBalance()
-      {
-            return balance;
-      }
- 
+  
       public void setBalance(double transAmt, int tCode)
       {
             if(tCode == 1){

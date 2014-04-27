@@ -71,8 +71,16 @@ public class CAActionPanel extends JPanel
             
             Main.frame.setVisible(false);
             if (source == zero){
-                Transaction newTrans = new Transaction(Main.userAccount.getTransCount(),
-                        Main.getTransCode(), Main.getTransAmt());
+                int futureTransCode = Main.getTransCode();
+                Transaction newTrans;
+                if (futureTransCode == 1) {
+                    newTrans = new Check(Main.userAccount.getTransCount(),
+                        futureTransCode, Main.getCheckNum(), Main.getTransAmt());
+                }
+                else {
+                newTrans = new Transaction(Main.userAccount.getTransCount(),
+                        futureTransCode, Main.getTransAmt());
+                }
                 Main.userAccount.addTrans(newTrans);
                 Main.displayBalanceMessage(newTrans, 
                         Main.userAccount.willBeChargedForLowBalance(),
@@ -91,8 +99,8 @@ public class CAActionPanel extends JPanel
             }
                 
             else if (source == one){
-                String message = "List All Transactions: \n\n"
-                        + "ID       Type              Amount\n";
+                String message = "Transaction List for\nName: " + Main.userAccount.name 
+                        +": \n\n" + "ID     Type              Amount\n";
                 
                 int transCount = Main.userAccount.getTransCount();
                 for (int i = 0; i < transCount; i++) {
@@ -105,8 +113,11 @@ public class CAActionPanel extends JPanel
             }
                 
             else if (source == two){
-                String message = "Checks Cashed: \n\n"
-                        + "ID           Amount\n";
+                String message = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nListing all Checks for " 
+                        + Main.userAccount.name 
+                        + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n" + 
+                        "ID     Chk#              Amount\n"
+                        + "-------------------------------\n";
                 
                 int transCount = Main.userAccount.getTransCount();                
                 for (int i = 0; i < transCount; i++) {
@@ -121,8 +132,9 @@ public class CAActionPanel extends JPanel
             }
                 
             else if (source == three){
-                String message = "Deposits Made: \n\n"
-                        + "ID           Amount\n";
+                String message = "Listing all Deposits for " + Main.userAccount.name
+                        +  "\n\n" + "ID     Type              Amount\n"
+                        + "-------------------------------";
                 
                 int transCount = Main.userAccount.getTransCount();                
                 for (int i = 0; i < transCount; i++) {

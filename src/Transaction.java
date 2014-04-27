@@ -1,6 +1,4 @@
 
-import java.text.DecimalFormat;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -37,15 +35,15 @@ public class Transaction
         return transId;
     }
     
-    private String transNumberToString(int transNumber)
+    public String transNumberToString(int transNumber)
     {
         if (transNumber == 1) {
-            return "check";
+            return "Check";
         }
         else if (transNumber == 2) {
-            return "deposit";
+            return "Deposit";
         }
-        return "svc.chrg.";
+        return "Service";
         
     }
    
@@ -56,9 +54,9 @@ public class Transaction
     @Override
     public String toString()
     {
-        
+
         String transAmtString = Main.currencyFormatter.format(transAmt);
-        String formatString =  String.format("%-9d%-10s%14s" + "\n"  , transNumber, 
+        String formatString =  String.format("%-7d%-7s%17s" + "\n"  , transNumber, 
                 transNumberToString(transId), 
                 transAmtString);
                 
@@ -67,8 +65,10 @@ public class Transaction
     
     public String toShortString()
     {
-        String formatString = String.format("%-6d%14s", transNumber,
-                Main.currencyFormatter.format(transAmt) + "\n");
+
+        String formatString = String.format("%-7d%-7s%18s", getTransNumber(), 
+                    transNumberToString(getTransId()),
+                    Main.currencyFormatter.format(getTransAmount()) + "\n");
         
         return formatString;
     }
