@@ -2,6 +2,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,7 +17,9 @@ import javax.swing.*;
 public class CAActionPanel extends JPanel
 {
     private JLabel prompt;
-    private JRadioButton zero, one, two, three;
+    private JRadioButton zero, one, two, three, four, five;
+    public JFileChooser fileChooser = new JFileChooser();
+    private boolean changesMade = true;
     
     public CAActionPanel()
     {
@@ -39,28 +42,48 @@ public class CAActionPanel extends JPanel
         three.setFont(new Font ("Garamond", Font.PLAIN, 16));
         three.setBackground(Color.red);
         
+        four = new JRadioButton("Load An Account");
+        four.setFont(new Font ("Garamond", Font.PLAIN, 16));
+        four.setBackground(Color.red);
+        
+        five = new JRadioButton("Save Your Account");
+        five.setFont(new Font ("Garamond", Font.PLAIN, 16));
+        five.setBackground(Color.red);
+        
         ButtonGroup group = new ButtonGroup();
         group.add(zero);
         group.add(one);
         group.add(two);
         group.add(three);
+        group.add(four);
+        group.add(five);
         
         CAActionListener listener = new CAActionListener();
         zero.addActionListener(listener);
         one.addActionListener(listener);
         two.addActionListener(listener);
         three.addActionListener(listener);
+        four.addActionListener(listener);
+        five.addActionListener(listener);
         
         add(prompt);
         add(zero);
         add(one);
         add(two);
         add(three);
+        add(four);
+        add(five);
         
         setBackground(Color.orange);
-        setPreferredSize(new Dimension(400, 110));
+        setPreferredSize(new Dimension(400, 150));
+        
     }
     
+    public boolean getChangesMade() {
+        return changesMade;
+    }
+    
+
     private class CAActionListener implements ActionListener
     {
         @Override
@@ -96,6 +119,7 @@ public class CAActionPanel extends JPanel
                             3, 0.10);
                     Main.userAccount.addTrans(serviceTrans);
                 }
+                changesMade = true;
             }
                 
             else if (source == one){
@@ -147,6 +171,45 @@ public class CAActionPanel extends JPanel
                 textArea.setFont(new Font("Monospaced",Font.PLAIN,15));
                 JOptionPane.showMessageDialog(null, textArea);
                 
+            }
+            else if (source == four) {
+                int fileChooserReturn = fileChooser.showOpenDialog(null);
+                if (fileChooserReturn == JFileChooser.APPROVE_OPTION) {
+                 File f = fileChooser.getSelectedFile();
+                    try {
+                        FileInputStream fIn = new FileInputStream(f);
+                        ObjectInputStream oIn = new ObjectInputStream(fIn);
+                        Main.userAccount = (CheckingAccount)oIn.readObject();
+                        oIn.close();
+                    } catch (Exception e) {
+                        System.out.println(e.toString());
+                    } finally {
+                        changesMade = false;
+                    }
+                    
+                }
+                
+            }
+            
+            else if (source == five) {
+                int fileChooserReturn = fileChooser.showSaveDialog(null);
+                if (fileChooserReturn == JFileChooser.APPROVE_OPTION) {
+                    File f = fileChooser.getSelectedFile();
+                    try {
+                        FileOutputStream fOut = new FileOutputStream(f);
+                        ObjectOutputStream oOut = new ObjectOutputStream(fOut);
+                        oOut.writeObject(Main.userAccount);
+                        oOut.close();
+                    } catch (IOException e) {
+                        System.out.println(e.toString());
+                    } finally {
+                        changesMade = false;
+                    }
+                    
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Did not save!");
+                }
             }
             
             Main.frame.setVisible(true);

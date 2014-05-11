@@ -1,4 +1,7 @@
 
+import java.io.Serializable;
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,9 +14,10 @@
  *
  * @author Ivan
  */
-public class Transaction
+public class Transaction implements Serializable
 {
-  
+ 
+    private static final long serialVersionUID = 2L;
     private final int transNumber;
     private final int transId;
     private final double transAmt;

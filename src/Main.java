@@ -4,32 +4,33 @@
  * @author Ivan
  */
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import javax.swing.*;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 
-public class Main
+public class Main implements WindowListener
 {
     //Constants 
     public static final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
     public static final double CHECK_FEE = .15;
     public static final double DEPOSIT_FEE = .10;
     
-    //Transactions
-      private static ArrayList<Transaction> transList;
-      private static int transCount;
-
     //GUI
     public static JFrame frame;
     
-    //Checking account
     public static CheckingAccount userAccount;
-  
+    public static CAActionPanel panel;
      
 
     public static void main (String[] args)
    {
-       transList = new ArrayList<>();
+
+       Main windowLnr = new Main();
        //Method Variables
        String userInitialBalanceStr, name;
        double userInitialBalance;
@@ -43,10 +44,10 @@ public class Main
        
        //GUI
        frame = new JFrame("Checking Account Actions");
-       frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+       frame.setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);
+       frame.addWindowListener(windowLnr);
        
-       
-       CAActionPanel panel = new CAActionPanel();
+       panel = new CAActionPanel();
        frame.getContentPane().add(panel);
        
        frame.pack();
@@ -55,24 +56,33 @@ public class Main
        
        //Get the first transaction code for the first time, then it will enter the loop
    }
-    public static void addTrans( Transaction newTrans)
-    {
-        transList.add(newTrans);
-        transCount += 1;
-    }
-        
-    public static int getTransCount()
-    {
-        return transCount;
-    }
     
-    public static Transaction getTrans(int i)
+   public void windowClosedClicked(boolean changesMade)
     {
-        return transList.get(i);
+        if (changesMade) {
+            int save = JOptionPane.showOptionDialog(null,"Would you like to save?" , "Quit?", JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.QUESTION_MESSAGE, null, null, null);
+            if (save == JOptionPane.YES_OPTION) {
+
+                int fileChooserReturn = panel.fileChooser.showSaveDialog(null);
+                if (fileChooserReturn == JFileChooser.APPROVE_OPTION) {
+                    File f = panel.fileChooser.getSelectedFile();
+                    try {
+                        FileOutputStream fOut = new FileOutputStream(f);
+                        ObjectOutputStream oOut = new ObjectOutputStream(fOut);
+                        oOut.writeObject(userAccount);
+                        oOut.close();
+                    } catch (IOException e) {
+                        System.out.println(e.toString());
+                    } finally {
+                        System.out.println("CLosing");
+                        frame.dispose();
+                    }
+                }
+            }
+    
+        }
     }
-  
-    
-    
    public static int getTransCode()
    {
        String userTransCodeStr;
@@ -184,5 +194,36 @@ public class Main
        JOptionPane.showMessageDialog(null, finalMessage);
        
    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        windowClosedClicked(panel.getChangesMade());
+        frame.dispose();
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+    }
+   
 }
  
