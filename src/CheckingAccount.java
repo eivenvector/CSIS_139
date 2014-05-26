@@ -11,8 +11,7 @@ a * @author Ivan
 public class CheckingAccount extends Account implements Serializable
 {
       private static final long serialVersionUID = 1L;
-    
-    
+
       public static final double LOW_BALANCE_FEE = 5.0;
       public static final double NEGATIVE_BALANCE_FEE = 10.0;
       public static final double CHECK_FEE = .15;
