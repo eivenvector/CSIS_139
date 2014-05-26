@@ -1,11 +1,6 @@
 
 import java.io.Serializable;
 
-
-/**
- *
- * @author Ivan
- */
 public class Account implements Serializable {
     String name;
     double balance;

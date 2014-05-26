@@ -1,13 +1,6 @@
 import java.util.ArrayList;
 import java.io.Serializable;
 
-/*
- *
- *
-a * @author Ivan
- */
-
-
 public class CheckingAccount extends Account implements Serializable
 {
       private static final long serialVersionUID = 1L;

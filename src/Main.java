@@ -39,26 +39,7 @@ public class Main
         setChangesMade(false);
         frame.setVisible(true);
     }
-    
-//    public void addNewAccount()  {
-//        int size = accountsVector.size();
-//        System.out.println(size);
-//        if (size > 0) {
-//            accountsVector.removeElementAt(size - 1);
-//            accountsVector.addElement(Main.userAccount);
-//        }
-//        
-//        String userInitialBalanceStr, name;
-//        double userInitialBalance;
-//        
-//        name = JOptionPane.showInputDialog ("Enter the Account Name: ");
-//        userInitialBalanceStr = JOptionPane.showInputDialog ("Enter your Initial Balance: ");
-//        userInitialBalance= Double.parseDouble(userInitialBalanceStr);
-//        userAccount = new CheckingAccount(userInitialBalance, name);
-//        
-//        accountsVector.addElement(Main.userAccount);
-//    }
-    
+
     public static boolean getChangesMade() {
         return changesMade;
     }

@@ -19,8 +19,8 @@ public class CAOptionsFrameL extends JFrame {
         int confirm;
         if (Main.getChangesMade())
         {
-           String  message = "The data in the application is not saved.\n"+
-               "Would you like to save it before exiting the application?";
+           String  message = "Data has not been saved.\n"+
+               "Save before exiting?";
            confirm = JOptionPane.showConfirmDialog (null, message);
            if (confirm == JOptionPane.YES_OPTION)
               Main.chooseSaveFile(); 
