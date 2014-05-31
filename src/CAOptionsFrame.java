@@ -131,8 +131,10 @@ public class CAOptionsFrame extends CAOptionsFrameL {
                 
                 String message = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"+
                         "Transaction List for\nName: " + Main.userAccount.name 
-                        + "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n" +
-                        "ID     Type              Amount\n";
+                        + "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" + 
+                        "Balance: " + Main.currencyFormatter.format(Main.userAccount.balance) + "\n" +
+                        "Service Charge: " + Main.currencyFormatter.format(Main.userAccount.getServiceCharge()) 
+                        + "\n\n" + "ID     Type              Amount\n";
                 
                 int transCount = Main.userAccount.getTransCount();
                 for (int i = 0; i < transCount; i++) {

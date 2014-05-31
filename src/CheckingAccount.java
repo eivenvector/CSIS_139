@@ -11,8 +11,8 @@ public class CheckingAccount extends Account implements Serializable
       public static final double DEPOSIT_FEE = .10;
 
       private double totalServiceCharge;
-      private static Boolean hasBeenUnder500ThisMonth = false;
-      private static Boolean hasBeenUnder50ThisMonth = false;
+      private Boolean hasBeenUnder500ThisMonth = false;
+      private Boolean hasBeenUnder50ThisMonth = false;
       
       //Transactions
       private ArrayList<Transaction> transList = new ArrayList<>();
